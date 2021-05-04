@@ -1,0 +1,18 @@
+camunda.bpm:
+  admin-user:
+    id: admin
+    password: admin
+    firstName: admin
+  filter:
+    create: All tasks
+  jpa:
+    enabled: true
+  generic-properties:
+    properties:
+      initializeTelemetry: false
+      telemetryReporterActivate: false
+
+spring:
+  datasource:
+    url: jdbc:h2:file:./quickel-h2-database
+
