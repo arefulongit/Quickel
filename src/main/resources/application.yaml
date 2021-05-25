@@ -15,4 +15,3 @@ camunda.bpm:
 spring:
   datasource:
     url: jdbc:h2:file:./quickel-h2-database
-
