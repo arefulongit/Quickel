@@ -6,6 +6,12 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.springframework.core.io.FileSystemResourceLoader
 import org.springframework.core.io.Resource
+import org.springframework.http.ContentDisposition
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.web.client.RestTemplate
 
 @SpringBootApplication
@@ -35,8 +41,20 @@ public class Main {
     }
 
     static void loadResource(File pFile) {
-        FileReader reader = new FileReader(pFile)
+        String url = "http://localhost:8080/engine-rest/deployment/create"
+        String fileContent = pFile.text
         RestTemplate restTemplate = new RestTemplate()
-        restTemplate.postForLocation("http://localhost:8080/engine-rest/deployment/create", reader)
+        HashMap formParams = [
+                "deployment-name":"aName",
+                "enable-duplicate-filtering":"true",
+                "deployment-source":"process application",
+                "data":"filename=${pFile.getName()}"
+        ]
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        HttpEntity<String> entity = new HttpEntity<String>(fileContent, headers );
+        //HttpEntity<String> entity = new HttpEntity<String>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
     }
 }
