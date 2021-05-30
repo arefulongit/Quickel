@@ -1,27 +1,30 @@
 package ru.quickel
 
-import org.springframework.boot.SpringApplication;
+import org.apache.hc.client5.http.entity.mime.FileBody
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder
+import org.apache.hc.client5.http.fluent.Request
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.ApplicationContext
-import org.springframework.context.support.ClassPathXmlApplicationContext
-import org.springframework.core.io.FileSystemResourceLoader
-import org.springframework.core.io.Resource
-import org.springframework.http.ContentDisposition
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
-import org.springframework.web.client.RestTemplate
+import groovy.cli.commons.CliBuilder
 
 @SpringBootApplication
 public class Main {
+
     public static void main(String... args) {
+        def cli = new CliBuilder(usage: 'Quickel [options]', header: "Options")
+        cli.ceu(args:1, argName:"url", "Camunda endpoint url, for example http://localhost:8080")
+        cli.pdd(args:1, argName:'path', "Path to directory with *.bpmn files, c:\\Temp\\bpmn")
+        def cmdLineOptions = cli.parse(args)
+        //assert cmdLineOptions != null
+        assert cmdLineOptions.arguments() == ["options"]
+        //assert cmdLineOptions.ceu == null
+        //assert cmdLineOptions.pdd == null
+
         loadSpring(args)
         //loadResources()
     }
 
-    static void loadSpring(String... args){
+    static void loadSpring(String... args) {
         SpringApplication.run(Main.class, args)
     }
 
@@ -42,19 +45,12 @@ public class Main {
 
     static void loadResource(File pFile) {
         String url = "http://localhost:8080/engine-rest/deployment/create"
-        String fileContent = pFile.text
-        RestTemplate restTemplate = new RestTemplate()
-        HashMap formParams = [
-                "deployment-name":"aName",
-                "enable-duplicate-filtering":"true",
-                "deployment-source":"process application",
-                "data":"filename=${pFile.getName()}"
-        ]
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-        HttpEntity<String> entity = new HttpEntity<String>(fileContent, headers );
-        //HttpEntity<String> entity = new HttpEntity<String>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        Request.post(url)
+                .body(
+                        MultipartEntityBuilder
+                                .create()
+                                .addPart("file", new FileBody(pFile))
+                                .build())
+                .execute()
     }
 }
