@@ -16,9 +16,19 @@ class Quickel {
     String BPMS_REST_PROCESS_CREATE = "/engine-rest/deployment/create"
 
     /**
+     *
+     */
+    String protoName = "http"
+
+    /**
      *  The address where the Camunda web interface should be located
      */
-    String bpmsUrl = ""
+    String serverName = ""
+
+    /**
+     * The port where the Camunda web interface should be located
+     */
+    String portNum = "8080"
 
     /**
      * The directory in which the * .BPMN files are located, which will
@@ -26,37 +36,74 @@ class Quickel {
      */
     String bpmnDir = ""
 
+
+    /**
+     *
+     * @param pArgs - command line arguments
+     */
     Quickel(String[] pArgs) {
         def cliBuilder = new CliBuilder("usage": "Quickel options", "header": "options:")
-        cliBuilder.u(longOpt: "bpmsUrl",
+        cliBuilder.n(longOpt: "protoName",
+                args: 1,
+                argName: "name",
+                "Protocol name: http or https",
+                required: true
+        )
+        cliBuilder.s(longOpt: "serverName",
                 args: 1,
                 argName: "url",
-                "Camunda endpoint url, for example http://localhost:8080",
-                required: true)
+                "This server name, for example localhost or my-beautiful-server",
+                required: true
+        )
+        cliBuilder.p(longOpt: "portNum",
+                args: 1,
+                argName: "num",
+                "http-port for webinterface",
+                required: true
+        )
         cliBuilder.d(longOpt: 'bpmnDir',
                 args: 1,
                 argName: "path",
                 "Path to directory with *.bpmn files, c:\\Temp\\bpmn",
-                required: true)
+                required: true
+        )
         cliBuilder.h(longOpt: "help",
-                "display usage")
+                "display usage"
+        )
         OptionAccessor cmdLineOptions = cliBuilder.parse(pArgs)
         if (!cmdLineOptions) return
-        this.bpmsUrl = cmdLineOptions.u
+        this.protoName = cmdLineOptions.n
+        this.serverName = cmdLineOptions.s
+        this.portNum = cmdLineOptions.p
         this.bpmnDir = cmdLineOptions.d
     }
 
-    void loadAll(String... args) {
-        loadSpringStarterCamunda()
+    /**
+     * First, we load Spring, and then the user files * .bpmn, * .dmn, * .cmn.
+     * loadSpringStarterCamunda's function parameters are still reserved
+     */
+    void loadAll() {
+        loadSpringStarterCamunda("","")
         loadUserResources()
     }
 
     /**
-     *
+     * Load Spring
      * @param args
      */
-    private void loadSpringStarterCamunda(String... args) {
-        SpringApplication.run(Main.class, args)
+    private void loadSpringStarterCamunda(String... pArgs) {
+/*
+        SpringApplication.run(
+                Main.class,
+                ["--server.port", this.portNum] as String
+//                "--server.port ${this.portNum}"
+       )
+
+ */
+        SpringApplication app = new SpringApplication(Main.class);
+        app.setDefaultProperties(Collections
+                .singletonMap("server.port", this.portNum));
+        app.run(pArgs);
     }
 
     /**
@@ -83,7 +130,7 @@ class Quickel {
      * @param pFile - file to upload
      */
     private void loadUserResource(File pFile) {
-        String url = "${bpmsUrl}${BPMS_REST_PROCESS_CREATE}"
+        String url = "${protoName}://${serverName}:${portNum}${BPMS_REST_PROCESS_CREATE}"
         Request.post(url)
                 .body(
                         MultipartEntityBuilder
