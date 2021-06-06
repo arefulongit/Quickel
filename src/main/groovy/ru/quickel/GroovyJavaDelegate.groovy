@@ -43,12 +43,12 @@ class GroovyJavaDelegate implements JavaDelegate{
      * @param pPathToScript - full path in the system to the script
      */
     def runExternalScriptBy(def pPathToScript){
-        log.log(Level.INFO, "╔═══ Start: ${pPathToScript} ═══╗")
+        log.log(Level.FINEST, "╔═══ Start: ${pPathToScript} ═══╗")
         shell.evaluate(
                 new GroovyCodeSource(
-                        new File(Const.GROOVY_SCRIPTS_PATH+pPathToScript)
+                        new File(pPathToScript)
                         ,"UTF-8")
         )
-        log.log(Level.INFO, "╚═══ Finish: ${pPathToScript} ══╝")
+        log.log(Level.FINEST, "╚═══ Finish: ${pPathToScript} ══╝")
     }
 }

@@ -4,34 +4,85 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0no269h</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_0no269h" sourceRef="StartEvent_1" targetRef="Activity_06aids9" />
+    <bpmn:sequenceFlow id="Flow_0no269h" sourceRef="StartEvent_1" targetRef="Activity_0swzf7m" />
     <bpmn:endEvent id="Event_00z14t2">
-      <bpmn:incoming>Flow_13e4730</bpmn:incoming>
+      <bpmn:incoming>Flow_00exrtc</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_13e4730" sourceRef="Activity_06aids9" targetRef="Event_00z14t2" />
-    <bpmn:userTask id="Activity_06aids9" name="Test Task" camunda:asyncBefore="true" camunda:asyncAfter="true">
-      <bpmn:incoming>Flow_0no269h</bpmn:incoming>
+    <bpmn:sequenceFlow id="Flow_13e4730" sourceRef="Activity_06aids9" targetRef="Activity_1xo3cs7" />
+    <bpmn:serviceTask id="Activity_06aids9" name="Test Task" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:class="ru.quickel.GroovyJavaDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="scriptFileName">..\scripts\testScript.groovy</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0lusumv</bpmn:incoming>
       <bpmn:outgoing>Flow_13e4730</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:task id="Activity_0swzf7m" name="Set process variable procVar1  to &#39;Hello,&#39;" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="procVar1">Hello,</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0no269h</bpmn:incoming>
+      <bpmn:outgoing>Flow_0woinpw</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0woinpw" sourceRef="Activity_0swzf7m" targetRef="Activity_0ibqh8f" />
+    <bpmn:task id="Activity_0ibqh8f" name="Set process variable procVar2 to &#39;world!&#39;" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="procVar2">world!</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0woinpw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lusumv</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0lusumv" sourceRef="Activity_0ibqh8f" targetRef="Activity_06aids9" />
+    <bpmn:sequenceFlow id="Flow_00exrtc" sourceRef="Activity_1xo3cs7" targetRef="Event_00z14t2" />
+    <bpmn:userTask id="Activity_1xo3cs7" name="Look in the log and process variables">
+      <bpmn:incoming>Flow_13e4730</bpmn:incoming>
+      <bpmn:outgoing>Flow_00exrtc</bpmn:outgoing>
     </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test1Process">
       <bpmndi:BPMNEdge id="Flow_13e4730_di" bpmnElement="Flow_13e4730">
-        <di:waypoint x="370" y="117" />
-        <di:waypoint x="432" y="117" />
+        <di:waypoint x="670" y="117" />
+        <di:waypoint x="710" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0no269h_di" bpmnElement="Flow_0no269h">
         <di:waypoint x="215" y="117" />
-        <di:waypoint x="270" y="117" />
+        <di:waypoint x="290" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0woinpw_di" bpmnElement="Flow_0woinpw">
+        <di:waypoint x="390" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lusumv_di" bpmnElement="Flow_0lusumv">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="570" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00exrtc_di" bpmnElement="Flow_00exrtc">
+        <di:waypoint x="810" y="117" />
+        <di:waypoint x="862" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="99" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_00z14t2_di" bpmnElement="Event_00z14t2">
-        <dc:Bounds x="432" y="99" width="36" height="36" />
+      <bpmndi:BPMNShape id="Activity_0m8osbw_di" bpmnElement="Activity_06aids9">
+        <dc:Bounds x="570" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0708ebk_di" bpmnElement="Activity_06aids9">
-        <dc:Bounds x="270" y="77" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0swzf7m_di" bpmnElement="Activity_0swzf7m">
+        <dc:Bounds x="290" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ibqh8f_di" bpmnElement="Activity_0ibqh8f">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00z14t2_di" bpmnElement="Event_00z14t2">
+        <dc:Bounds x="862" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qa5ozh_di" bpmnElement="Activity_1xo3cs7">
+        <dc:Bounds x="710" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

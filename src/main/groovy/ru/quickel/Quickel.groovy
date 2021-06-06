@@ -71,7 +71,7 @@ class Quickel {
                 "display usage"
         )
         OptionAccessor cmdLineOptions = cliBuilder.parse(pArgs)
-        if (!cmdLineOptions) return
+        if (!cmdLineOptions) System.exit(-1)
         this.protoName = cmdLineOptions.n
         this.serverName = cmdLineOptions.s
         this.portNum = cmdLineOptions.p
@@ -92,14 +92,6 @@ class Quickel {
      * @param args
      */
     private void loadSpringStarterCamunda(String... pArgs) {
-/*
-        SpringApplication.run(
-                Main.class,
-                ["--server.port", this.portNum] as String
-//                "--server.port ${this.portNum}"
-       )
-
- */
         SpringApplication app = new SpringApplication(Main.class);
         app.setDefaultProperties(Collections
                 .singletonMap("server.port", this.portNum));
