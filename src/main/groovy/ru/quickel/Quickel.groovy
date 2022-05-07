@@ -11,12 +11,12 @@ import org.springframework.boot.SpringApplication
 class Quickel {
 
     /**
-     *
+     * 
      */
     String BPMS_REST_PROCESS_CREATE = "/engine-rest/deployment/create"
 
     /**
-     *
+     * Name of protocols (http/https) - used in uri-string
      */
     String protoName = "http"
 
