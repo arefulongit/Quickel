@@ -16,6 +16,8 @@
         <camunda.spin.version>1.9.1</camunda.spin.version>
         <spring-boot.version>2.4.3</spring-boot.version>
         <groovy-lang.version>3.0.8</groovy-lang.version>
+        <sonar.organization>arefulongit</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencyManagement>
