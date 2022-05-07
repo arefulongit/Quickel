@@ -12,6 +12,7 @@ import groovy.cli.commons.CliBuilder
 public class Main {
 
     public static void main(String... args) {
+        // Start main object
         new Quickel(args)
                 .loadAll()
     }
