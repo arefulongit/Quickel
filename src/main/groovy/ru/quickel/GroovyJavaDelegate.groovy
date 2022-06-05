@@ -16,7 +16,7 @@ class GroovyJavaDelegate implements JavaDelegate{
      * variables from the process and starts these scripts for execution.
      * In these scripts, variables:
      *  dlg - will be available to access process variables,
-     *  logger - to output messages from the script to the general log
+     *  logger - to output messages from the script to the general logger
      * @param delegateExecution
      */
     @Override

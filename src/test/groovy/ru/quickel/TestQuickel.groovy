@@ -1,9 +1,6 @@
 package ru.quickel
 
 import org.junit.jupiter.api.Test
-import org.springframework.context.ApplicationContext
-import org.springframework.context.support.ClassPathXmlApplicationContext
-
 
 class TestQuickel {
 
@@ -21,14 +18,24 @@ class TestQuickel {
     }
 
     @Test
-    void testLoadSpring() {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext()
-        Main.loadSpring("arg1", "arg2")
+    void testLoadScriptEngines(){
+        Quickel quickel = new Quickel(
+                //"-u http://localhost:8080 -d c:\\temp\\bpmn -p 8080"
+                "-n http -s localhost -p 8081 -d c:\\temp\\bpmn"
+                        .split()
+        )
+        quickel.loadScriptEngines();
     }
 
-    @Test
-    void testLoadBpmn() {
-        Main.loadResources()
-    }
+//    @Test
+//    void testLoadSpring() {
+//        ApplicationContext ctx = new ClassPathXmlApplicationContext()
+//        Main.loadSpring("arg1", "arg2")
+//    }
+//
+//    @Test
+//    void testLoadBpmn() {
+//        Main.loadResources()
+//    }
 
 }

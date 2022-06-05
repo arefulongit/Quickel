@@ -19,6 +19,8 @@ For example:
 6. Save and deploy the process
 
 ## History
+### 0.0.46
+Added initial scala scripting support
 ### 0.0.29
 Implemented the main functionality for running groovy scripts loaded from disk
 ### 0.0.25
