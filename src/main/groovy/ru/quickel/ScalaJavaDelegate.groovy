@@ -19,8 +19,8 @@ class ScalaJavaDelegate implements JavaDelegate {
     }
 
     void process(def vars) {
-        engine.put("logger", logger)
-        engine.put("vars", vars)
+        ScalaScriptEngine.engine().put("logger", logger)
+        ScalaScriptEngine.engine().put("vars", vars)
 
         def scriptFileNameOrNames = vars["scriptFileName"]
         switch (scriptFileNameOrNames) {
@@ -41,6 +41,6 @@ class ScalaJavaDelegate implements JavaDelegate {
      * @param pPathToScript - full path in the system to the script
      */
     def runExternalScriptBy(def pPathToScript) {
-        engine.eval(new File(pPathToScript).getText("UTF-8"))
+        ScalaScriptEngine.engine().eval(new File(pPathToScript).getText("UTF-8"))
     }
 }
